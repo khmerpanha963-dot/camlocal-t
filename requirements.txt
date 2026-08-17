@@ -1,0 +1,7 @@
+Flask
+qrcode>=7.4
+Pillow>=10.0
+requests>=2.31
+bakong-khqr
+Werkzeug>=2.3
+Authlib>=1.3
