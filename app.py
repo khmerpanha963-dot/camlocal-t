@@ -66,7 +66,7 @@ _order_id_counter = itertools.count(1)
 # PRODUCT CATALOG
 # =============================
 PRODUCTS = [
-    {"id": 1, "name": "Krama Weave Tee", "price": 18.00, "desc": "Krama checkerweave print."},
+    {"id": 1, "name": "Krama Weave Tee", "price": 0.01, "desc": "Krama checkerweave print."},
     {"id": 2, "name": "Angkor Line Tee", "price": 16.00, "desc": "Minimal temple line art."},
     {"id": 3, "name": "Script Stack Tee", "price": 17.00, "desc": "Khmer + English wordmark."},
     {"id": 4, "name": "Moto-Taxi Tee", "price": 18.00, "desc": "Tribute to the city's moto-dops."},
