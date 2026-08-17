@@ -1,0 +1,186 @@
+:root{
+  --ink:#0c0c0c;
+  --paper:#ffffff;
+  --gray-050:#f6f6f4;
+  --gray-100:#ececea;
+  --gray-300:#c9c7c2;
+  --gray-500:#8a8783;
+  --gray-700:#3d3b38;
+  --line: rgba(12,12,12,0.13);
+  --line-inv: rgba(255,255,255,0.16);
+}
+*{box-sizing:border-box; margin:0; padding:0; -webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{ background:#000; color:var(--ink); font-family:'Work Sans', sans-serif; font-size:15px; }
+h1,h2,h3, .display{ font-family:'Anton', sans-serif; font-weight:400; text-transform:uppercase; letter-spacing:0.01em; line-height:0.95; }
+.mono{ font-family:'Space Mono', monospace; }
+a{ color:inherit; text-decoration:none; }
+img{ max-width:100%; display:block; }
+button{ font-family:inherit; }
+::selection{ background:var(--ink); color:var(--paper); }
+
+/* Phone-frame app shell */
+.app-shell{
+  max-width:460px; margin:0 auto; min-height:100vh;
+  background:var(--paper); position:relative;
+  padding-bottom:74px;
+}
+@media (min-width:461px){
+  body{ padding:24px 0; }
+  .app-shell{ min-height:calc(100vh - 48px); box-shadow:0 0 80px rgba(255,255,255,0.06); }
+}
+
+.wrap{ max-width:100%; margin:0 auto; padding:0 18px; }
+
+.hair-strip{ height:2px; background:var(--ink); }
+
+/* ---------- ANGKOR WAT MOTIF (original line-art silhouette) ---------- */
+.angkor-mark{ display:block; width:100%; height:auto; }
+.angkor-mark .tower, .angkor-mark .base{ fill:currentColor; }
+
+/* ---------- HEADER ---------- */
+header{ position:sticky; top:0; z-index:50; background:var(--paper); border-bottom:1px solid var(--line); }
+nav.wrap{ display:flex; align-items:center; justify-content:space-between; height:56px; }
+.logo{ font-family:'Anton', sans-serif; font-size:16px; letter-spacing:0.06em; display:flex; align-items:center; gap:8px; }
+.logo .mark{ width:16px; height:16px; color:var(--ink); }
+.nav-user{ display:flex; align-items:center; gap:8px; }
+.nav-user img{ width:24px; height:24px; border-radius:50%; border:1.5px solid var(--ink); filter:grayscale(100%); }
+.account-link{ font-size:10.5px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; max-width:80px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.logout-link{ font-family:'Space Mono',monospace; font-size:10px; color:var(--gray-500); text-decoration:underline; }
+
+/* ---------- BOTTOM TAB BAR ---------- */
+.tab-bar{ position:fixed; bottom:0; left:0; right:0; max-width:460px; margin:0 auto; background:var(--ink); display:flex; z-index:60; }
+.tab-item{ flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; padding:10px 0 8px; color:var(--gray-500); font-family:'Space Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.04em; position:relative; }
+.tab-item.active{ color:var(--paper); }
+.tab-item .tab-icon{ font-size:16px; line-height:1; }
+.tab-item .tab-count{ position:absolute; top:4px; right:calc(50% - 20px); background:var(--paper); color:var(--ink); border-radius:50%; width:15px; height:15px; font-size:9px; display:flex; align-items:center; justify-content:center; font-weight:700; }
+
+/* ---------- HERO with Angkor Wat backdrop ---------- */
+.hero{ position:relative; padding:0 0 0; background:var(--ink); color:var(--paper); overflow:hidden; }
+.hero-inner{ position:relative; z-index:2; padding:44px 0 0; }
+.hero-bg{ position:absolute; left:0; right:0; bottom:0; color:var(--paper); opacity:0.16; z-index:1; pointer-events:none; }
+.hero-eyebrow{ font-family:'Space Mono', monospace; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--gray-300); margin-bottom:10px; display:flex; align-items:center; gap:7px; }
+.hero-eyebrow::before{ content:''; width:16px; height:1.5px; background:var(--paper); display:inline-block; }
+.hero h1{ font-size:clamp(34px, 10vw, 44px); color:var(--paper); }
+.hero h1 .accent{ -webkit-text-stroke:1.5px var(--paper); color:transparent; }
+.hero-sub{ margin-top:14px; font-size:13.5px; line-height:1.6; color:var(--gray-300); max-width:320px; }
+.hero-cta{ display:flex; gap:10px; margin-top:22px; flex-wrap:wrap; position:relative; z-index:2; }
+.hero-spacer{ height:150px; position:relative; z-index:2; }
+
+.btn{ display:inline-flex; align-items:center; gap:8px; padding:13px 20px; font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; border:1.5px solid currentColor; cursor:pointer; background:transparent; transition:transform .15s ease, background .15s ease, color .15s ease; }
+.btn-solid{ background:var(--paper); color:var(--ink); border-color:var(--paper); }
+.btn-solid-dark{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+.btn:active{ transform:scale(0.97); }
+.btn-block{ width:100%; justify-content:center; }
+
+/* ---------- TICKER ---------- */
+.ticker{ background:var(--paper); color:var(--ink); overflow:hidden; white-space:nowrap; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+.ticker-track{ display:inline-block; padding:9px 0; animation:scroll 22s linear infinite; font-family:'Space Mono', monospace; font-size:10.5px; letter-spacing:.08em; text-transform:uppercase; }
+.ticker-track span{ margin:0 16px; }
+.ticker-track span.dim{ color:var(--gray-500); }
+@keyframes scroll{ from{ transform:translateX(0);} to{ transform:translateX(-50%);} }
+
+/* ---------- SECTIONS ---------- */
+section{ padding:34px 0; }
+.section-head{ margin-bottom:20px; display:flex; align-items:baseline; justify-content:space-between; gap:10px; }
+.section-head h2{ font-size:24px; }
+.section-index{ font-family:'Space Mono',monospace; font-size:11px; color:var(--gray-500); }
+.section-tag{ font-family:'Space Mono', monospace; font-size:11px; text-transform:uppercase; letter-spacing:.05em; color:var(--gray-500); line-height:1.5; margin-top:4px; }
+
+/* ---------- SHOP GRID ---------- */
+.shop-grid{ display:grid; grid-template-columns:1fr; gap:1px; background:var(--line); border:1px solid var(--line); }
+.product{ background:var(--paper); padding:16px 14px 14px; display:flex; gap:14px; align-items:center; }
+.product .tee{ width:76px; height:76px; flex-shrink:0; filter:grayscale(100%) contrast(1.05); }
+.product .info{ flex:1; min-width:0; }
+.product h3{ font-size:14.5px; margin-bottom:2px; letter-spacing:.01em; }
+.product .desc{ font-size:11.5px; color:var(--gray-500); line-height:1.4; margin-bottom:8px; }
+.product .row{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.price{ font-family:'Space Mono', monospace; font-weight:700; font-size:13.5px; }
+.qty-input{ width:36px; border:1.5px solid var(--ink); background:none; text-align:center; padding:6px 2px; font-family:'Space Mono',monospace; font-size:12px; }
+.add-btn{ font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.05em; background:none; border:1.5px solid var(--ink); padding:7px 11px; cursor:pointer; }
+.add-btn:active{ background:var(--ink); color:var(--paper); }
+
+/* ---------- CONTACT ---------- */
+.contact{ background:var(--gray-050); }
+.contact-line{ font-family:'Space Mono',monospace; font-size:11.5px; line-height:2; }
+
+/* ---------- FOOTER with Angkor motif ---------- */
+footer{ background:var(--ink); color:var(--paper); padding:0; position:relative; overflow:hidden; }
+.footer-mark{ position:absolute; left:0; right:0; bottom:-10px; color:var(--paper); opacity:0.14; width:100%; display:block; z-index:1; }
+.footer-content{ position:relative; z-index:2; padding:26px 0 20px; }
+.footer-logo{ font-family:'Anton',sans-serif; font-size:16px; margin-bottom:8px; letter-spacing:.05em; }
+.footer-line{ font-family:'Space Mono',monospace; font-size:10.5px; color:var(--gray-300); line-height:1.7; }
+.footer-bottom{ margin-top:16px; padding-top:14px; border-top:1px solid var(--line-inv); font-size:9.5px; color:var(--gray-500); font-family:'Space Mono',monospace; line-height:1.6; }
+
+/* ---------- CART & CHECKOUT ---------- */
+.cart-list{ display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:20px; }
+.cart-row{ background:var(--paper); padding:12px 14px; display:flex; justify-content:space-between; align-items:center; gap:8px; }
+.cart-row .cname{ font-size:13px; font-weight:600; }
+.cart-row .cmeta{ font-family:'Space Mono',monospace; font-size:10.5px; color:var(--gray-500); }
+.remove-btn{ background:none; border:none; color:var(--ink); font-family:'Space Mono',monospace; font-size:10.5px; text-decoration:underline; }
+.cart-total{ display:flex; justify-content:space-between; align-items:baseline; font-family:'Anton',sans-serif; font-size:20px; padding:4px 2px 18px; }
+
+.checkout-form{ margin-top:6px; }
+.field{ margin-bottom:16px; }
+.field label{ display:block; font-family:'Space Mono',monospace; font-size:10px; text-transform:uppercase; letter-spacing:.06em; margin-bottom:6px; color:var(--gray-500); }
+.field input, .field textarea{ width:100%; border:none; border-bottom:2px solid var(--ink); background:transparent; padding:8px 2px; font-size:14px; font-family:'Work Sans',sans-serif; }
+.field input:focus, .field textarea:focus{ outline:none; border-color:var(--gray-500); }
+.locate-btn{ display:flex; align-items:center; gap:6px; margin-top:8px; background:none; border:1.5px dashed var(--ink); padding:8px 10px; font-size:11px; font-family:'Space Mono',monospace; text-transform:uppercase; letter-spacing:.04em; cursor:pointer; width:100%; justify-content:center; }
+.locate-status{ font-family:'Space Mono',monospace; font-size:10.5px; color:var(--gray-500); margin-top:6px; }
+.locate-status.ok{ color:var(--ink); font-weight:700; }
+.empty-note{ font-family:'Space Mono',monospace; color:var(--gray-500); padding:30px 0; font-size:12px; text-align:center; }
+
+/* ---------- QR PAGE ---------- */
+.qr-wrap{ text-align:center; }
+.qr-amount{ font-family:'Anton',sans-serif; font-size:32px; margin-bottom:6px; }
+.qr-frame{ position:relative; width:200px; margin:0 auto 18px; }
+.qr-frame img{ display:block; width:100%; border:5px solid var(--ink); filter:grayscale(100%); }
+.qr-expired-overlay{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(12,12,12,0.9); opacity:0; pointer-events:none; transition:opacity .3s ease; }
+.qr-expired-overlay.show{ opacity:1; }
+.qr-expired-overlay span{ font-family:'Anton',sans-serif; color:var(--paper); font-size:18px; letter-spacing:.05em; border:2px solid var(--paper); padding:6px 12px; transform:rotate(-8deg); }
+.qr-timer{ font-size:18px; font-weight:700; letter-spacing:.03em; margin-top:2px; }
+.qr-status{ font-family:'Space Mono',monospace; font-size:11px; letter-spacing:.06em; text-transform:uppercase; padding:8px 14px; display:inline-block; border:1.5px solid var(--ink); margin-top:14px; }
+.qr-status.paid{ background:var(--ink); color:var(--paper); }
+.qr-status.expired{ background:var(--ink); color:var(--paper); border-color:var(--ink); }
+
+/* ---------- ACCOUNT PAGE ---------- */
+.account-card{ display:flex; align-items:center; gap:14px; background:var(--gray-050); padding:16px; border:1px solid var(--line); }
+.account-avatar{ width:44px; height:44px; border-radius:50%; background:var(--ink); color:var(--paper); display:flex; align-items:center; justify-content:center; font-family:'Anton',sans-serif; font-size:18px; flex-shrink:0; }
+.account-avatar-img{ width:44px; height:44px; border-radius:50%; flex-shrink:0; border:1.5px solid var(--ink); filter:grayscale(100%); }
+.account-name{ font-weight:700; font-size:15px; text-transform:capitalize; }
+.account-email{ font-size:11px; color:var(--gray-500); }
+
+.order-list{ display:flex; flex-direction:column; gap:1px; background:var(--line); border:1px solid var(--line); }
+.order-card{ background:var(--paper); padding:14px; }
+.order-top{ display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+.order-status{ font-family:'Space Mono',monospace; font-size:9.5px; text-transform:uppercase; letter-spacing:.05em; padding:3px 8px; border:1px solid var(--ink); }
+.status-paid{ background:var(--ink); color:var(--paper); }
+.status-pending{ background:none; }
+.status-expired{ background:var(--gray-100); color:var(--gray-500); }
+.order-total{ font-size:17px; font-weight:700; margin-bottom:6px; }
+.order-meta{ font-size:11.5px; color:var(--gray-500); line-height:1.6; }
+.order-date{ font-family:'Space Mono',monospace; font-size:10px; }
+
+/* ---------- LOGIN PAGE (modern, monochrome, Angkor Wat backdrop) ---------- */
+.login-screen{
+  min-height:100vh; position:relative; overflow:hidden;
+  background:var(--ink); color:var(--paper);
+  display:flex; flex-direction:column; align-items:center; justify-content:center; padding:40px 26px;
+  text-align:center;
+}
+.login-bg{ position:absolute; left:0; right:0; bottom:0; color:var(--paper); opacity:0.22; z-index:0; }
+.login-content{ position:relative; z-index:2; display:flex; flex-direction:column; align-items:center; width:100%; }
+.login-crest{ width:42px; height:42px; color:var(--paper); margin-bottom:18px; }
+.login-logo{ font-family:'Anton',sans-serif; font-size:26px; letter-spacing:.03em; }
+.login-tag{ font-family:'Space Mono',monospace; font-size:10.5px; letter-spacing:.16em; color:var(--gray-300); margin:8px 0 40px; text-transform:uppercase; }
+
+.google-btn{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  background:var(--paper); color:var(--ink); border:none; border-radius:2px;
+  padding:14px 22px; font-size:13.5px; font-weight:700; width:100%; max-width:280px; cursor:pointer;
+  text-transform:uppercase; letter-spacing:.04em;
+  transition:transform .15s ease;
+}
+.google-btn:active{ transform:scale(0.97); }
+.login-note{ margin-top:24px; font-size:11px; color:var(--gray-500); max-width:270px; line-height:1.65; }
+.login-divider{ width:40px; height:1px; background:var(--line-inv); margin:26px 0; }
