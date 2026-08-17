@@ -1,0 +1,74 @@
+{% import "_macros.html" as m %}
+{% extends "base.html" %}
+{% block content %}
+
+<section class="hero" id="top">
+  <div class="wrap hero-inner">
+    <p class="hero-eyebrow">Screen printed in PP</p>
+    <h1>Local by<br>design, <span class="accent">worn</span><br>everywhere.</h1>
+    <p class="hero-sub">Small-batch tees built from Cambodian pattern and street life. Pay instantly with Bakong KHQR.</p>
+    <div class="hero-cta">
+      <a href="#shop" class="btn btn-solid btn-block">Shop the Drop</a>
+    </div>
+  </div>
+  <div class="hero-spacer"></div>
+  {{ m.angkor_mark('hero-bg') }}
+</section>
+
+<div class="ticker">
+  <div class="ticker-track">
+    <span>100% COTTON</span><span class="dim">·</span>
+    <span>PRINTED IN PHNOM PENH</span><span class="dim">·</span>
+    <span>PAY BY KHQR</span><span class="dim">·</span>
+    <span>FREE DELIVERY OVER $25</span><span class="dim">·</span>
+  </div>
+</div>
+
+<section id="shop">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>The Shop</h2>
+      <span class="section-index mono">01</span>
+    </div>
+    <p class="section-tag" style="margin-top:-14px; margin-bottom:20px;">Tap add, then check out with a KHQR scan.</p>
+
+    <div class="shop-grid">
+      {% for p in products %}
+      <div class="product">
+        <svg class="tee" viewBox="0 0 200 200">
+          <path d="M60 30 L85 18 Q100 30 115 18 L140 30 L165 55 L145 75 L135 65 L135 175 L65 175 L65 65 L55 75 L35 55 Z"
+                fill="{{ ['#0c0c0c','#ffffff','#8a8783','#0c0c0c','#ffffff','#8a8783'][loop.index0 % 6] }}"
+                stroke="#0c0c0c" stroke-width="4"/>
+        </svg>
+        <div class="info">
+          <h3>{{ p.name }}</h3>
+          <p class="desc">{{ p.desc }}</p>
+          <form method="POST" action="{{ url_for('cart_add') }}" class="row">
+            <input type="hidden" name="product_id" value="{{ p.id }}">
+            <span class="price mono">${{ '%.2f'|format(p.price) }}</span>
+            <input type="number" name="qty" value="1" min="1" class="qty-input">
+            <button type="submit" class="add-btn">Add</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<section class="contact" id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Get in Touch</h2>
+      <span class="section-index mono">02</span>
+    </div>
+    <p class="section-tag" style="margin-top:-14px; margin-bottom:16px;">Custom orders, wholesale, or a restock question.</p>
+    <p class="contact-line">
+      Telegram: @camlocalt<br>
+      WhatsApp: +855 12 345 678<br>
+      Email: hello@camlocal-t.com
+    </p>
+  </div>
+</section>
+
+{% endblock %}

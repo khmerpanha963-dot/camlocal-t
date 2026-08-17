@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Scan to Pay — CAMLOCAL-T{% endblock %}
+{% block content %}
+
+<section>
+  <div class="wrap qr-wrap">
+    <p class="hero-eyebrow" style="justify-content:center;">Order #{{ order_id }}</p>
+    <div class="qr-amount mono">${{ '%.2f'|format(amount) }}</div>
+
+    <div class="qr-frame" id="qrFrame">
+      <img src="data:image/png;base64,{{ qr_data }}" alt="Bakong KHQR payment code" width="200" id="qrImage">
+      <div class="qr-expired-overlay" id="qrOverlay">
+        <span>EXPIRED</span>
+      </div>
+    </div>
+
+    <p class="mono" style="font-size:12px; color:var(--muted);">Scan with any Bakong-linked banking app</p>
+
+    <div class="qr-timer mono" id="timer">05:00</div>
+
+    <div id="statusBox" class="qr-status">Waiting for payment…</div>
+
+    <div id="retryBox" style="display:none; margin-top:18px;">
+      <a href="{{ url_for('cart_view') }}" class="btn btn-solid">Generate a new QR</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  const md5 = "{{ md5 }}";
+  const orderId = {{ order_id }};
+  const expiresAt = {{ expires_at }} * 1000; // ms since epoch, matches server-side expiry
+
+  const statusBox = document.getElementById('statusBox');
+  const timerEl = document.getElementById('timer');
+  const qrOverlay = document.getElementById('qrOverlay');
+  const retryBox = document.getElementById('retryBox');
+
+  let pollTimer = null;
+  let countdownTimer = null;
+  let settled = false; // true once PAID or EXPIRED, so timers stop touching the DOM
+
+  function formatRemaining(ms) {
+    const totalSeconds = Math.max(0, Math.floor(ms / 1000));
+    const m = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+    const s = String(totalSeconds % 60).padStart(2, '0');
+    return `${m}:${s}`;
+  }
+
+  function expireQr() {
+    if (settled) return;
+    settled = true;
+    clearInterval(pollTimer);
+    clearInterval(countdownTimer);
+    timerEl.textContent = '00:00';
+    statusBox.textContent = 'QR expired — please check out again';
+    statusBox.classList.add('expired');
+    qrOverlay.classList.add('show');
+    retryBox.style.display = 'block';
+  }
+
+  function markPaid() {
+    if (settled) return;
+    settled = true;
+    clearInterval(pollTimer);
+    clearInterval(countdownTimer);
+    statusBox.textContent = 'Payment received';
+    statusBox.classList.add('paid');
+    setTimeout(() => { window.location.href = `/order/${orderId}/success`; }, 1200);
+  }
+
+  // Countdown, driven by the real expiry timestamp so a page refresh
+  // still shows the correct remaining time instead of resetting to 5:00.
+  countdownTimer = setInterval(() => {
+    const remaining = expiresAt - Date.now();
+    timerEl.textContent = formatRemaining(remaining);
+    if (remaining <= 0) {
+      expireQr();
+    }
+  }, 250);
+
+  // Poll the server for actual payment / expiry status.
+  pollTimer = setInterval(async () => {
+    if (settled) return;
+    try {
+      const res = await fetch(`/check_payment_status?md5=${md5}`);
+      const data = await res.json();
+
+      if (data.status === 'PAID') {
+        markPaid();
+      } else if (data.status === 'EXPIRED') {
+        expireQr();
+      }
+    } catch (e) {
+      // network hiccup, keep polling
+    }
+  }, 3000);
+</script>
+
+{% endblock %}

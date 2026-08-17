@@ -1,0 +1,66 @@
+{% import "_macros.html" as m %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>{% block title %}CAMLOCAL-T{% endblock %}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Work+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<div class="app-shell">
+
+  <header>
+    <nav class="wrap">
+      <a href="{{ url_for('index') }}" class="logo">{{ m.angkor_mark('mark') }}CAMLOCAL-T</a>
+      {% if current_user %}
+      <div class="nav-user">
+        {% if current_user.picture %}<img src="{{ current_user.picture }}" alt="" referrerpolicy="no-referrer">{% endif %}
+        <a href="{{ url_for('account_page') }}" class="account-link">{{ current_user.name }}</a>
+        <a href="{{ url_for('logout') }}" class="logout-link">Log out</a>
+      </div>
+      {% endif %}
+    </nav>
+    <div class="hair-strip"></div>
+  </header>
+
+  {% block content %}{% endblock %}
+
+  <footer>
+    {{ m.angkor_mark('footer-mark') }}
+    <div class="wrap footer-content">
+      <div class="footer-logo">CAMLOCAL-T</div>
+      <div class="footer-line">
+        #24, Street 178, Daun Penh, Phnom Penh<br>
+        Mon–Sat, 9:00–19:00
+      </div>
+      <div class="footer-bottom">
+        © 2026 CAMLOCAL-T. Printed in Phnom Penh, Cambodia.<br>
+        Payments secured via Bakong KHQR.
+      </div>
+    </div>
+  </footer>
+
+  {% if current_user %}
+  <nav class="tab-bar">
+    <a href="{{ url_for('index') }}" class="tab-item {{ 'active' if request.path == '/' else '' }}">
+      <span class="tab-icon">⌂</span>Shop
+    </a>
+    <a href="{{ url_for('index') }}#contact" class="tab-item">
+      <span class="tab-icon">✉</span>Contact
+    </a>
+    <a href="{{ url_for('cart_view') }}" class="tab-item {{ 'active' if request.path == '/cart' else '' }}">
+      <span class="tab-icon">🛍</span>Cart
+      {% if cart_count and cart_count > 0 %}<span class="tab-count">{{ cart_count }}</span>{% endif %}
+    </a>
+    <a href="{{ url_for('account_page') }}" class="tab-item {{ 'active' if request.path == '/account' else '' }}">
+      <span class="tab-icon">👤</span>Account
+    </a>
+  </nav>
+  {% endif %}
+
+</div>
+</body>
+</html>

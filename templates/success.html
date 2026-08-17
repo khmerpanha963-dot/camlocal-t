@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Order Confirmed — CAMLOCAL-T{% endblock %}
+{% block content %}
+
+<section>
+  <div class="wrap" style="text-align:center; padding:40px 0;">
+    <p class="hero-eyebrow" style="justify-content:center;">Thank you, {{ order.customer_name }}</p>
+    <h1 style="font-size:30px;">Order Confirmed</h1>
+    <p class="hero-sub" style="margin:14px auto 0;">
+      Order #{{ order.id }} — ${{ '%.2f'|format(order.total) }} paid via Bakong KHQR.<br><br>
+      Delivering to:<br>{{ order.customer_address }}<br><br>
+      We'll text {{ order.customer_phone }} once it's packed.
+    </p>
+    <a href="{{ url_for('index') }}" class="btn btn-solid btn-block" style="margin-top:24px;">Back to Shop</a>
+  </div>
+</section>
+
+{% endblock %}

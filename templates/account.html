@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Account — CAMLOCAL-T{% endblock %}
+{% block content %}
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Account</h2>
+    </div>
+
+    <div class="account-card">
+      {% if current_user.picture %}
+      <img src="{{ current_user.picture }}" alt="" class="account-avatar-img" referrerpolicy="no-referrer">
+      {% else %}
+      <div class="account-avatar">{{ current_user.name[0]|upper }}</div>
+      {% endif %}
+      <div>
+        <div class="account-name">{{ current_user.name }}</div>
+        <div class="account-email mono">{{ current_user.email }}</div>
+      </div>
+    </div>
+
+    <div class="section-head" style="margin-top:30px;">
+      <h2 style="font-size:20px;">Order History</h2>
+    </div>
+
+    {% if orders %}
+    <div class="order-list">
+      {% for o in orders %}
+      <div class="order-card">
+        <div class="order-top">
+          <span class="mono">#{{ o.id }}</span>
+          <span class="order-status status-{{ o.status|lower }}">{{ o.status }}</span>
+        </div>
+        <div class="order-total mono">${{ '%.2f'|format(o.total) }}</div>
+        <div class="order-meta">
+          {{ o.customer_phone }}<br>
+          {{ o.customer_address }}<br>
+          <span class="order-date">{{ o.created_at }}</span>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-note">No orders yet.<br><a href="{{ url_for('index') }}#shop" style="text-decoration:underline;">Go pick a tee →</a></p>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

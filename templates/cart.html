@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% block title %}Your Cart — CAMLOCAL-T{% endblock %}
+{% block content %}
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Your Cart</h2>
+    </div>
+
+    {% if items %}
+    <div class="cart-list">
+      {% for item in items %}
+      <div class="cart-row">
+        <div>
+          <div class="cname">{{ item.name }}</div>
+          <div class="cmeta">{{ item.qty }} × ${{ '%.2f'|format(item.price) }}</div>
+        </div>
+        <div style="display:flex; align-items:center; gap:10px;">
+          <span class="price mono">${{ '%.2f'|format(item.line_total) }}</span>
+          <form method="POST" action="{{ url_for('cart_remove') }}">
+            <input type="hidden" name="product_id" value="{{ item.id }}">
+            <button type="submit" class="remove-btn">Remove</button>
+          </form>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="cart-total">
+      <span style="font-size:14px;">Total</span>
+      <span class="mono">${{ '%.2f'|format(total) }}</span>
+    </div>
+
+    <form method="POST" action="{{ url_for('checkout') }}" class="checkout-form" id="checkoutForm">
+      <div class="field">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" value="{{ current_user.name if current_user else '' }}" required>
+      </div>
+      <div class="field">
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="+855 ..." required>
+      </div>
+      <div class="field">
+        <label for="address">Delivery Address</label>
+        <textarea id="address" name="address" rows="2" placeholder="Street, sangkat, khan / district" required></textarea>
+
+        <input type="hidden" name="lat" id="lat">
+        <input type="hidden" name="lng" id="lng">
+
+        <button type="button" class="locate-btn" id="locateBtn">📍 Use my current location</button>
+        <div class="locate-status" id="locateStatus"></div>
+      </div>
+
+      <button type="submit" class="btn btn-solid btn-block">Pay with Bakong KHQR</button>
+    </form>
+
+    {% else %}
+    <p class="empty-note">Your cart is empty.<br><a href="{{ url_for('index') }}#shop" style="text-decoration:underline;">Go pick a tee →</a></p>
+    {% endif %}
+  </div>
+</section>
+
+<script>
+  const locateBtn = document.getElementById('locateBtn');
+  const locateStatus = document.getElementById('locateStatus');
+  const latInput = document.getElementById('lat');
+  const lngInput = document.getElementById('lng');
+
+  if (locateBtn) {
+    locateBtn.addEventListener('click', () => {
+      if (!navigator.geolocation) {
+        locateStatus.textContent = 'Location isn\'t supported on this browser.';
+        return;
+      }
+      locateStatus.textContent = 'Finding you...';
+      locateStatus.classList.remove('ok');
+
+      navigator.geolocation.getCurrentPosition(
+        (pos) => {
+          latInput.value = pos.coords.latitude;
+          lngInput.value = pos.coords.longitude;
+          locateStatus.textContent =
+            `Location captured (${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}) — add the street details above.`;
+          locateStatus.classList.add('ok');
+        },
+        () => {
+          locateStatus.textContent = 'Couldn\'t get your location — please type your address instead.';
+        },
+        { enableHighAccuracy: true, timeout: 8000 }
+      );
+    });
+  }
+</script>
+
+{% endblock %}
